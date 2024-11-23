@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Pupuk</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Data Pupuk</h1>
+
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama Pupuk</th>
+            <th>Jenis Pupuk</th>
+            <th>Kandungan</th>
+            <th>Stok</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pupuk.forEach(function(item) { %>
+          <tr>
+            <td><%= item.id_pupuk %></td>
+            <td><%= item.nama_pupuk %></td>
+            <td><%= item.jenis_pupuk %></td>
+            <td><%= item.kandungan %></td>
+            <td><%= item.stok %></td>
+            <td>
+              <button
+                class="btn btn-warning btn-sm"
+                onclick="editPupuk('<%= item.id_pupuk %>', '<%= item.nama_pupuk %>', '<%= item.jenis_pupuk %>', '<%= item.kandungan %>', '<%= item.stok %>')"
+              >
+                Edit
+              </button>
+              <form
+                action="/pupuk/<%= item.id_pupuk %>?_method=DELETE"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <h2 class="mt-5">Tambah Pupuk</h2>
+      <form action="/pupuk/create" method="POST">
+        <div class="form-group">
+          <label for="nama_pupuk">Nama Pupuk</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nama_pupuk"
+            name="nama_pupuk"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="jenis_pupuk">Jenis Pupuk</label>
+          <input
+            type="text"
+            class="form-control"
+            id="jenis_pupuk"
+            name="jenis_pupuk"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="kandungan">Kandungan</label>
+          <textarea
+            class="form-control"
+            id="kandungan"
+            name="kandungan"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="stok">Stok</label>
+          <input
+            type="number"
+            class="form-control"
+            id="stok"
+            name="stok"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Tambah</button>
+      </form>
+
+      <!-- Form to update pupuk -->
+      <h2 class="mt-5">Edit Pupuk</h2>
+      <form id="editForm" action="/pupuk/:id" method="PUT">
+        <input type="hidden" id="edit_id_pupuk" name="id_pupuk" />
+        <div class="form-group">
+          <label for="edit_nama_pupuk">Nama Pupuk</label>
+          <input
+            type="text"
+            class="form-control"
+            id="edit_nama_pupuk"
+            name="nama_pupuk"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="edit_jenis_pupuk">Jenis Pupuk</label>
+          <input
+            type="text"
+            class="form-control"
+            id="edit_jenis_pupuk"
+            name="jenis_pupuk"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="edit_kandungan">Kandungan</label>
+          <textarea
+            class="form-control"
+            id="edit_kandungan"
+            name="kandungan"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit_stok">Stok</label>
+          <input
+            type="number"
+            class="form-control"
+            id="edit_stok"
+            name="stok"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+
+    <script>
+      function editPupuk(id, nama, jenis, kandungan, stok) {
+        document.getElementById("edit_id_pupuk").value = id;
+        document.getElementById("edit_nama_pupuk").value = nama;
+        document.getElementById("edit_jenis_pupuk").value = jenis;
+        document.getElementById("edit_kandungan").value = kandungan;
+        document.getElementById("edit_stok").value = stok;
+        document.getElementById("editForm").action =
+          "/pupuk/" + id + "?_method=PUT";
+      }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
